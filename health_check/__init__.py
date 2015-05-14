@@ -50,4 +50,4 @@ def get_version(short=False):
         vers.append('%s%i' % (__version_info__['releaselevel'][0], __version_info__['serial']))
     return ''.join(vers)
 
-__version__ = '0.2.sm0'#get_version()
+__version__ = '0.2.sm1'#get_version()
