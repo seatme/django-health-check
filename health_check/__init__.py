@@ -30,7 +30,8 @@ def autodiscover():
             # import the class itself, then import its 'name' attribute
             class_module = import_module(app[:app.rfind('.')])
             app_config = getattr(class_module, app[app.rfind('.')+1:])
-            mod = import_module(app_config.name)
+            app = app_config.name
+            mod = import_module(app)
 
         # Attempt to import the app's admin module.
         try:
