@@ -21,9 +21,18 @@ def autodiscover():
     from importlib import import_module
     from django.utils.module_loading import module_has_submodule
     from health_check.plugins import plugin_dir
-    
+
     for app in settings.INSTALLED_APPS:
-        mod = import_module(app)
+        try:
+            mod = import_module(app)
+        except:
+            # This is for the AppConfig style import, which you instead
+            # import the class itself, then import its 'name' attribute
+            class_module = import_module(app[:app.rfind('.')])
+            app_config = getattr(class_module, app[app.rfind('.')+1:])
+            app = app_config.name
+            mod = import_module(app)
+
         # Attempt to import the app's admin module.
         try:
             before_import_registry = copy.copy(plugin_dir._registry)
